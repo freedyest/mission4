@@ -1,74 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prioritize Todo List</title>
-    <link href="src/output.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prioritize Todo List</title>
+  <link href="src/output.css" rel="stylesheet">
 </head>
 <body class="bg-gray-300">
+
 <!--header-->
 <header>
-    <div class=" top-0 left-0 w-full h-16 bg-white shadow-lg flex justify-between border-b border-gray-300">
-        <img src="img/logo1.png" alt="logo" class="h-12 mt-2 w-1/3 md:w-32">
-        <div class="flex justify-end items-center w-1/2 py-2">
-            <p class="text-gray-500 hover:underline">Freedy estiawan</p>
-            <img src="img/pp.png" alt="foto" class="h-12 mt-2 rounded-lg mx-2">
-        </div>
+  <div class="top-0 left-0 w-full h-16 bg-white shadow-lg flex justify-between border-b border-gray-300">
+    <img src="img/logo1.png" alt="logo" class="h-12 mt-2 w-1/3 md:w-32">
+    <div class="flex justify-end items-center w-1/2 py-2">
+      <p class="text-gray-500 hover:underline">Freedy estiawan</p>
+      <img src="img/pp.png" alt="foto" class="h-12 mt-2 rounded-lg mx-2">
     </div>
+  </div>
 </header>
 
 <!--profilcard-->
 <section id="profilcard">
-    <div class="bg-white shadow-md h-auto py-8 px-2 mt-0 pb-3">
-        <h1 class="text-2xl font-bold">Hi Freedy!</h1>
-        <h2 class="text-gray-700">employee of prioritize</h2>
-        <p class="text-lg text-gray-500 mt-4">Selamat datang di aplikasi Prioritize Todo List</p>
-    </div>
+  <div class="bg-white shadow-md h-auto py-8 px-2 mt-0 pb-3">
+    <h1 class="text-2xl font-bold">Hi Freedy!</h1>
+    <h2 class="text-gray-700">Employee of Prioritize</h2>
+    <p class="text-lg text-gray-500 mt-4">Selamat datang di aplikasi Prioritize Todo List</p>
+    <!-- Tambahan Time -->
+    <p id="currentTime" class="text-sm text-gray-400 mt-2">Hari & Tanggal: </p>
+  </div>
 </section>
-<section id="inputtask">
-    <div class="bg-slate-500 mx-2 my-2 flex">
-        <input type="text" id="inputtask" class="w-3/5 rounded-full"></input>
-        <input type="date" class="w-1/5 rounded-full">
-            <button id="dropdownButton" class="inline-flex justify-center w-1/5 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-      Menu
-      <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
-        <button class="bg-blue-500 rounded-full text-white w-1/5">Add Task
-    </div>
-</section>
-<section id="tasklist">
-    <div class="bg-white mx-2 my-2 h-auto shadow-md">
-        <h1 class="text-2xl font-bold px-4 py-2">Task List</h1>
-        <div class="border-y border-gray-300 flex justify-between">
-            <div class="flex">
-                <a href="#">all</a>
-            <a href="#">To do list</a>
-            <a href="#">Done</a>
-                </div>
-            <div class="flex">
-                <a href="" class="bg-red-500">deleteall</a>
-        </div>
-        </div>
-        <div class="px-4 py-2">
-            <div class="flex justify-between items-center border-b border-gray-300 py-2">
-                
-                <div class="flex items-center space-x-4">
-                    <input type="checkbox">
-                    <div>
-                    <h2 class="text-lg font-semibold">Task 1</h2>
-                    <p class="text-gray-500">Due: 2024-06-30</p>
-                    </div>
-                </div>
-                <div class="flex space-x-2">
-                    <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
-                    <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
 
+<!--input task-->
+<section id="inputtask">
+  <div class="bg-gray-300 mx-2 my-2 p-2 rounded-lg">
+    <textarea name="inputtexttodo" id="inputtexttodo" placeholder="Tulis tugasmu disini..." class="w-full rounded-lg my-2 h-24 p-3"></textarea>      
+    <div class="flex justify-between mb-2 gap-2">
+      <!-- deadline -->
+      <input type="date" class="w-1/3 rounded-lg p-2 border border-gray-300">
+      <!-- dropdown prioritas -->
+      <select id="priority" class="w-1/3 rounded-lg p-2 border border-gray-300">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
     </div>
+    <div class="flex justify-center">
+      <button id="addTaskBtn" class="bg-blue-500 justify-end rounded-full text-white w-1/3 h-10">Add Task</button>
+    </div>  
+  </div>
+</section>
+
+<!--task menu-->
+<section id="taskmenu">
+  <div class="bg-white flex justify-center h-auto shadow-md rounded-md">
+    <h1 class="text-2xl font-bold px-4 py-2">Task List</h1>
+  </div>
+        
+  <div id="listmenu" class="bg-gray-300 rounded-md m-2 h-12 border-y border-gray-300 flex justify-between items-center px-2">
+  <!-- Tab Menu -->
+  <div class="flex shadow-md bg-white justify-between w-1/2 items-center text-center ">
+    <a href="#" class="w-1/3 bg-slate-200 hover:bg-slate-300 h-full flex items-center justify-center">All</a>
+    <a href="#" class="w-1/3 hover:bg-slate-300 h-full flex items-center justify-center">Task</a>
+    <a href="#" class="w-1/3 hover:bg-slate-300 h-full flex items-center justify-center">Done</a>
+  </div>
+
+  <!-- Sort Dropdown -->
+  <select id="sortTask" class="rounded-md border border-gray-300 p-1 text-sm">
+    <option value="default">Sort By</option>
+    <option value="priority">Priority</option>
+    <option value="az">A - Z</option>
+    <option value="za">Z - A</option>
+  </select>
+
+  <!-- Delete All -->
+  <div class="flex bg-red-500 text-center rounded-md shadow-md w-1/5 items-center justify-center">
+    <a href="#" class="text-white">Delete All</a>
+  </div>
+</div>
+
+</section>
+
+<!--to do list-->
+<section class="tasklist">
+  <div class="bg-white w-full">
+    <div class="flex justify-between items-center border-b border-gray-300 py-2">                
+      <div class="flex items-center space-x-4 px-4 py-2">
+        <input type="checkbox">
+        <div>
+          <h2 class="text-lg font-semibold">Task 1</h2>
+          <p class="text-gray-500">Due: 2024-06-30 | Priority: High</p>
+        </div>
+      </div>
+      <div class="flex space-x-2 px-4 py-2">
+        <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
+        <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+      </div>
     </div>
-    </div></div>
-    </section>
+  </div>
+</section>
+
+<!--done list-->
+<section id="donelist" class="mt-4">
+  <div class="bg-white flex justify-center h-auto shadow-md rounded-md">
+    <h1 class="text-2xl font-bold px-4 py-2">Done List</h1>
+  </div>
+  <div class="bg-white w-full mt-2 p-4 rounded-md shadow">
+    <p class="text-gray-500 italic">Belum ada tugas yang selesai.</p>
+  </div>
+</section>
+
+<script>
+  
+</script>
+
+<script src="src/script.js"></script>
 </body>
 </html>
