@@ -38,20 +38,37 @@
     </button>
         <button class="bg-blue-500 rounded-full text-white w-1/5">Add Task
     </div>
-</section id="tasklist">
+</section>
+<section id="tasklist">
     <div class="bg-white mx-2 my-2 h-auto shadow-md">
         <h1 class="text-2xl font-bold px-4 py-2">Task List</h1>
-        <div class="border-t border-gray-300"></div>
+        <div class="border-y border-gray-300 flex justify-between">
+            <div class="flex">
+                <a href="#">all</a>
+            <a href="#">To do list</a>
+            <a href="#">Done</a>
+                </div>
+            <div class="flex">
+                <a href="" class="bg-red-500">deleteall</a>
+        </div>
+        </div>
         <div class="px-4 py-2">
             <div class="flex justify-between items-center border-b border-gray-300 py-2">
-                <div>
+                
+                <div class="flex items-center space-x-4">
+                    <input type="checkbox">
+                    <div>
                     <h2 class="text-lg font-semibold">Task 1</h2>
                     <p class="text-gray-500">Due: 2024-06-30</p>
+                    </div>
                 </div>
                 <div class="flex space-x-2">
                     <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
                     <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
 
     </div>
+    </div>
+    </div></div>
+    </section>
 </body>
 </html>
