@@ -1,8 +1,14 @@
 window.addEventListener('DOMContentLoaded', loadTodoList);
 
 const inputtodo = document.getElementById('inputtexttodo');
-const listtodo = document.getElementById('listtodo');
-const buttonadd = document.getElementById('addtext');
+const inputdeadline = document.getElementById('inputdeadline');
+const priority = document.getElementById('priority');
+const addTaskBtn = document.getElementById('addTaskBtn');
+const listmenu = document.getElementById('listmenu');
+const sortTask = document.getElementById('sortTask');
+const deleteall = document.getElementById('deleteall');
+const donelist = document.getElementById('donelist');
+const tasklist = document.getElementById('tasklist');
 
 // Set time
   const currentTime = document.getElementById("currentTime");

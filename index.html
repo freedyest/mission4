@@ -36,7 +36,7 @@
     <textarea name="inputtexttodo" id="inputtexttodo" placeholder="Tulis tugasmu disini..." class="w-full rounded-lg my-2 h-24 p-3"></textarea>      
     <div class="flex justify-between mb-2 gap-2">
       <!-- deadline -->
-      <input type="date" class="w-1/3 rounded-lg p-2 border border-gray-300">
+      <input type="date" id="inputdeadline" class="w-1/3 rounded-lg p-2 border border-gray-300">
       <!-- dropdown prioritas -->
       <select id="priority" class="w-1/3 rounded-lg p-2 border border-gray-300">
         <option value="low">Low</option>
@@ -73,7 +73,7 @@
   </select>
 
   <!-- Delete All -->
-  <div class="flex bg-red-500 text-center rounded-md shadow-md w-1/5 items-center justify-center">
+  <div id="deleteall" class="flex bg-red-500 text-center rounded-md shadow-md w-1/5 items-center justify-center">
     <a href="#" class="text-white">Delete All</a>
   </div>
 </div>
@@ -81,7 +81,7 @@
 </section>
 
 <!--to do list-->
-<section class="tasklist">
+<section class="tasklist" id="tasklist">
   <div class="bg-white w-full">
     <div class="flex justify-between items-center border-b border-gray-300 py-2">                
       <div class="flex items-center space-x-4 px-4 py-2">
@@ -97,6 +97,7 @@
       </div>
     </div>
   </div>
+  
 </section>
 
 <!--done list-->
