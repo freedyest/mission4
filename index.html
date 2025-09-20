@@ -39,13 +39,15 @@
       <input type="date" id="inputdeadline" class="w-1/3 rounded-lg p-2 border border-gray-300">
       <!-- dropdown prioritas -->
       <select id="priority" class="w-1/3 rounded-lg p-2 border border-gray-300">
+        <option value="priority" disabled selected>Pilih Priority</option>
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>
+
     </div>
     <div class="flex justify-center">
-      <button id="addTaskBtn" class="bg-blue-500 justify-end rounded-full text-white w-1/3 h-10">Add Task</button>
+      <button type="button" id="addTaskBtn" class="bg-blue-500 justify-end rounded-full text-white w-1/3 h-10">Add Task</button>
     </div>  
   </div>
 </section>
