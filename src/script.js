@@ -49,11 +49,14 @@ addTaskBtn.addEventListener('click', function(event) {
   inputdeadline.value = '';
   priority.value = 'priority';
 });
-//buatlist
+//textlist
+const taskContainer = document.getElementById('taskContainer');
+
 function addTask(taskitem) {
   const item1 = document.createElement('div');
   item1.className = 'flex justify-between items-center border-b border-gray-300 py-2';
 
+ //info
   const item2 = document.createElement('div');
   item2.className = 'flex items-center space-x-4 px-4 py-2';
 
@@ -61,47 +64,45 @@ function addTask(taskitem) {
   checkbox.type = 'checkbox';
 
   const item3 = document.createElement('div');
-  
-  const item4 = document.createElement('h2');
-  item3.className = 'text-lg font-semibold' ;
-  item3.textContent = taskitem.tasktext;
 
-  const item5 = document.createElement('p');
-  item4.className = ' text-gray-500';
-  item4.textContent = 'Deadline: ' + taskitem.deadline;
+  const title = document.createElement('h2');
+  title.className = 'text-lg font-semibold';
+  title.textContent = taskitem.tasktext;
 
-  const item6 = document.createElement('p');
-  item4.className = ' text-gray-500';
-  item4.textContent = 'priority: ' + taskitem.priority;
+  const detail = document.createElement('p');
+  detail.className = 'text-gray-500';
+  detail.textContent = 'Due: ' + taskitem.deadline + ' | Priority: ' + taskitem.priority;
 
-  const item7 = document.createElement('/div');
+  item3.appendChild(title);
+  item3.appendChild(detail);
 
-  
-  const item8 = document.createElement('/div');
-
-  const item9 = document.createElement('div');
-  item9.className = 'flex items-center space-x-4 px-4 py-2';
-
-  const item10 = document.createElement('button');
-  item10.className = 'bg-green-500 text-white px-4 py-2 rounded-lg';
-  item10.textContent = 'Edit';
-
-  const items11= document.createElement('button');
-  items11.className = 'bg-red-500 text-white px-4 py-2 rounded-lg';
-  items11.textContent = 'Delete';
-
-  const item12 = document.createElement('/div');
-  const item13 = document.createElement('/div');
-  const item14 = document.createElement('/div');
-
-  item3.appendChild(item4);
-  item3.appendChild(item5);
-  item3.appendChild(item6);
   item2.appendChild(checkbox);
   item2.appendChild(item3);
+
+  //edit delete
+  const item4 = document.createElement('div');
+  item4.className = 'flex space-x-2 px-4 py-2';
+
+  const editBtn = document.createElement('button');
+  editBtn.className = 'bg-green-500 text-white px-3 py-1 rounded';
+  editBtn.textContent = 'Edit';
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'bg-red-500 text-white px-3 py-1 rounded';
+  deleteBtn.textContent = 'Delete';
+
+  // hapus task ketika klik Delete
+  deleteBtn.addEventListener('click', () => {
+    taskContainer.removeChild(item1);
+  });
+
+  item4.appendChild(editBtn);
+  item4.appendChild(deleteBtn);
+
+  // gabung kiri & kanan
   item1.appendChild(item2);
-  item9.appendChild(item10);
-  item9.appendChild(items11);
-  item1.appendChild(item9);
-  listmenu.appendChild(item1);  
+  item1.appendChild(item4);
+
+  // masukkan ke container
+  taskContainer.appendChild(item1);
 }

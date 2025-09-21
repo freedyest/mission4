@@ -32,24 +32,26 @@
 
 <!--input task-->
 <section id="inputtask">
-  <div class="bg-gray-300 mx-2 my-2 p-2 rounded-lg">
-    <textarea name="inputtexttodo" id="inputtexttodo" placeholder="Tulis tugasmu disini..." class="w-full rounded-lg my-2 h-24 p-3"></textarea>      
-    <div class="flex justify-between mb-2 gap-2">
-      <!-- deadline -->
-      <input type="date" id="inputdeadline" class="w-1/3 rounded-lg p-2 border border-gray-300">
-      <!-- dropdown prioritas -->
-      <select id="priority" class="w-1/3 rounded-lg p-2 border border-gray-300">
-        <option value="priority" disabled selected>Pilih Priority</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
+    
+      <div class="bg-gray-300 mx-2 my-2 p-2 rounded-lg">
+        <textarea name="inputtexttodo" id="inputtexttodo" placeholder="Tulis tugasmu disini..." class="w-full rounded-lg my-2 h-24 p-3"></textarea>      
+        <div class="flex justify-between mb-2 gap-2">
+          <!-- deadline -->
+          <input type="date" id="inputdeadline" class="w-1/3 rounded-lg p-2 border border-gray-300">
+          <!-- dropdown prioritas -->
+          <select id="priority" class="w-1/3 rounded-lg p-2 border border-gray-300">
+            <option value="priority" disabled selected>Pilih Priority</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
 
-    </div>
-    <div class="flex justify-center">
-      <button type="button" id="addTaskBtn" class="bg-blue-500 justify-end rounded-full text-white w-1/3 h-10">Add Task</button>
-    </div>  
-  </div>
+        </div>
+        <div class="flex justify-center">
+          <button type="button" id="addTaskBtn" class="bg-blue-500 justify-end rounded-full text-white w-1/3 h-10">Add Task</button>
+        </div>  
+      </div>
+    
 </section>
 
 <!--task menu-->
@@ -84,21 +86,23 @@
 
 <!--to do list-->
 <section class="tasklist" id="tasklist">
-  <div class="bg-white w-full">
-    <div class="flex justify-between items-center border-b border-gray-300 py-2">                
-      <div class="flex items-center space-x-4 px-4 py-2">
-        <input type="checkbox">
-        <div>
-          <h2 class="text-lg font-semibold">Task 1</h2>
-          <p class="text-gray-500">Due: 2024-06-30 | Priority: High</p>
+  <div id="taskContainer" class="bg-white w-full mt-2 rounded-md shadow">
+    <div class="bg-white w-full">
+      <div class="flex justify-between items-center border-b border-gray-300 py-2">                
+        <div class="flex items-center space-x-4 px-4 py-2">
+          <input type="checkbox">
+          <div>
+            <h2 class="text-lg font-semibold">Task 1</h2>
+            <p class="text-gray-500">Due: 2024-06-30 | Priority: High</p>
+          </div>
+        </div>
+        <div class="flex space-x-2 px-4 py-2">
+          <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
+          <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
         </div>
       </div>
-      <div class="flex space-x-2 px-4 py-2">
-        <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
-        <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-      </div>
     </div>
-  </div>
+</div>
   
 </section>
 
