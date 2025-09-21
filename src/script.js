@@ -8,6 +8,7 @@ const sortTask = document.getElementById('sortTask');
 const deleteall = document.getElementById('deleteall');
 const donelist = document.getElementById('donelist');
 const tasklist = document.getElementById('tasklist');
+const doneContainer = document.getElementById('doneContainer');
 
 // Set time
   const currentTime = document.getElementById("currentTime");
@@ -75,16 +76,69 @@ function addTask(taskitem) {
 
 
   //checked task
+
 checkbox.addEventListener('change', () => {
   if (checkbox.checked) {
     item1.style.textDecoration = 'line-through';
+    item1.style.color = 'gray';
 
-        item1.style.color = 'gray';
+    // del msg
+    const emptyMsg = document.getElementById('emptyDoneMsg');
+    if (emptyMsg) emptyMsg.remove();
+
+    // check item
+    let exist = Array.from(doneContainer.querySelectorAll('h2'))
+      .some(el => el.textContent === title.textContent);
+
+    if (!exist) {
+      // remake done list
+      const doneItem = document.createElement('div');
+      doneItem.className = 'done-item flex justify-between items-center py-2';
+
+      const doneInfo = document.createElement('div');
+      doneInfo.className = 'flex items-center space-x-4 px-4 py-2';
+
+      const doneText = document.createElement('div');
+
+      const doneTitle = document.createElement('h2');
+      doneTitle.className = 'text-lg font-semibold';
+      doneTitle.textContent = title.textContent;
+
+      const doneDetail = document.createElement('p');
+      doneDetail.className = 'text-gray-500';
+      doneDetail.textContent = detail.textContent;
+
+      doneText.appendChild(doneTitle);
+      doneText.appendChild(doneDetail);
+      doneInfo.appendChild(doneText);
+      doneItem.appendChild(doneInfo);
+
+      //append to doneContainer
+      doneContainer.appendChild(doneItem);
+    }
   } else {
-        item1.style.textDecoration = 'none';
-        item1.style.color = 'black';
-  } 
+    item1.style.textDecoration = 'none';
+    item1.style.color = 'black';
+
+    // delete from done list
+    const doneItems = doneContainer.querySelectorAll('h2');
+    doneItems.forEach(el => {
+      if (el.textContent === title.textContent) {
+        el.closest('.done-item').remove();
+      }
+    });
+
+    // if empty done list
+    if (doneContainer.querySelectorAll('.done-item').length === 0) {
+      const msg = document.createElement('p');
+      msg.id = 'emptyDoneMsg';
+      msg.className = 'text-gray-500 italic';
+      msg.textContent = 'Belum ada tugas yang selesai.';
+      doneContainer.appendChild(msg);
+    }
+  }
 });
+  // gabung info
   item3.appendChild(title);
   item3.appendChild(detail);
 
