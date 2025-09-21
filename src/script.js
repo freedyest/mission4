@@ -93,7 +93,7 @@ function addTask(taskitem) {
 
   // hapus task ketika klik Delete
   deleteBtn.addEventListener('click', () => {
-    taskContainer.removeChild(item1);
+    item1.remove();
   });
 
   item4.appendChild(editBtn);
@@ -106,3 +106,12 @@ function addTask(taskitem) {
   // masukkan ke container
   taskContainer.appendChild(item1);
 }
+
+// delete all task
+deleteall.addEventListener('click', () => {
+  if (confirm("Yakin ingin menghapus semua task?")) {
+    taskContainer.innerHTML = '';
+  } else {
+    return;
+  }
+});
