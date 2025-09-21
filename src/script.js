@@ -136,6 +136,7 @@ checkbox.addEventListener('change', () => {
       msg.textContent = 'Belum ada tugas yang selesai.';
       doneContainer.appendChild(msg);
     }
+   
   }
 });
   // gabung info
@@ -171,6 +172,14 @@ checkbox.addEventListener('change', () => {
 
   // masukkan ke container
   taskContainer.appendChild(item1);
+
+  // cek kosong task list
+if (taskContainer.children.length !== 0) {
+
+  const emptyMsg = document.getElementById('emptyTaskMsg');
+  if (emptyMsg) emptyMsg.remove();
+}
+
 }
 
 // delete all task
