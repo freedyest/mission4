@@ -73,6 +73,18 @@ function addTask(taskitem) {
   detail.className = 'text-gray-500';
   detail.textContent = 'Due: ' + taskitem.deadline + ' | Priority: ' + taskitem.priority;
 
+
+  //checked task
+checkbox.addEventListener('change', () => {
+  if (checkbox.checked) {
+    item1.style.textDecoration = 'line-through';
+
+        item1.style.color = 'gray';
+  } else {
+        item1.style.textDecoration = 'none';
+        item1.style.color = 'black';
+  } 
+});
   item3.appendChild(title);
   item3.appendChild(detail);
 
