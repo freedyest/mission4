@@ -16,6 +16,82 @@ const doneContainer = document.getElementById('doneContainer');
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   currentTime.textContent = "Hari & Tanggal: " + now.toLocaleDateString('id-ID', options);
 
+  // Filter nav
+const filternav = document.getElementById('filternav');
+const filterLinks = filternav.querySelectorAll('a');
+
+filterLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    // hapus highlight sebelumnya
+    filterLinks.forEach(l => l.classList.remove('bg-slate-200'));
+    // kasih highlight aktif
+    link.classList.add('bg-slate-200');
+
+    const filter = link.textContent.trim();
+
+    const tasks = taskContainer.querySelectorAll('div');
+
+    tasks.forEach(task => {
+      const checkbox = task.querySelector('input[type="checkbox"]');
+      if (!checkbox) return; // skip kalau bukan task valid
+
+      if (filter === "All") {
+        task.style.display = "flex";
+      } 
+      else if (filter === "Task") {
+        task.style.display = checkbox.checked ? "none" : "flex";
+      } 
+      else if (filter === "Done") {
+        task.style.display = checkbox.checked ? "flex" : "none";
+      }
+    });
+  });
+});
+
+// sorting function
+sortTask.addEventListener('change', () => {
+  const value = sortTask.value;
+
+  // ambil semua task valid
+  const taskItems = Array.from(taskContainer.children).filter(el => el.querySelector('h2'));
+
+  let sortedTasks = [];
+
+  if (value === "priority") {
+    // mapping priority → High > Medium > Low
+    const priorityOrder = { High: 1, Medium: 2, Low: 3, high: 1, medium: 2, low: 3 };
+
+    sortedTasks = taskItems.sort((a, b) => {
+      const pa = priorityOrder[a.dataset.priority] || 99;
+      const pb = priorityOrder[b.dataset.priority] || 99;
+      return pa - pb;
+    });
+  } 
+  else if (value === "az") {
+    sortedTasks = taskItems.sort((a, b) => {
+      const ta = a.querySelector('h2').textContent.toLowerCase();
+      const tb = b.querySelector('h2').textContent.toLowerCase();
+      return ta.localeCompare(tb);
+    });
+  } 
+  else if (value === "za") {
+    sortedTasks = taskItems.sort((a, b) => {
+      const ta = a.querySelector('h2').textContent.toLowerCase();
+      const tb = b.querySelector('h2').textContent.toLowerCase();
+      return tb.localeCompare(ta);
+    });
+  } 
+  else {
+    return; // default, biarin aja
+  }
+
+  // append ulang biar urut (checkbox, tombol, dll tetap utuh)
+  sortedTasks.forEach(task => taskContainer.appendChild(task));
+});
+
+
   // confirm blank input
 addTaskBtn.addEventListener('click', function(event) {
   event.preventDefault();
@@ -56,6 +132,7 @@ const taskContainer = document.getElementById('taskContainer');
 function addTask(taskitem) {
   const item1 = document.createElement('div');
   item1.className = 'flex justify-between items-center border-b border-gray-300 py-2';
+  item1.dataset.priority = taskitem.priority;  // simpan priority asli
 
  //info
   const item2 = document.createElement('div');
@@ -79,8 +156,8 @@ function addTask(taskitem) {
 
 checkbox.addEventListener('change', () => {
   if (checkbox.checked) {
-    item1.style.textDecoration = 'line-through';
-    item1.style.color = 'gray';
+    item3.style.textDecoration = 'line-through';
+    item3.style.color = 'gray';
 
     // del msg
     const emptyMsg = document.getElementById('emptyDoneMsg');
