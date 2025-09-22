@@ -131,7 +131,7 @@ const taskContainer = document.getElementById('taskContainer');
 
 function addTask(taskitem) {
   const item1 = document.createElement('div');
-  item1.className = 'flex justify-between items-center border-b border-gray-300 py-2';
+  item1.className = 'flex justify-between items-center border-b border-gray-300 py-2 md:mx-10';
   item1.dataset.priority = taskitem.priority;  // simpan priority asli
 
  //info
@@ -170,7 +170,7 @@ checkbox.addEventListener('change', () => {
     if (!exist) {
       // remake done list
       const doneItem = document.createElement('div');
-      doneItem.className = 'done-item flex justify-between items-center py-2';
+      doneItem.className = 'md:mx-10 done-item flex justify-between items-center py-2';
 
       const doneInfo = document.createElement('div');
       doneInfo.className = 'flex items-center space-x-4 px-4 py-2';
