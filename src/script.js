@@ -91,6 +91,55 @@ sortTask.addEventListener('change', () => {
   sortedTasks.forEach(task => taskContainer.appendChild(task));
 });
 
+// === Filter Tanggal ===
+const filterDate1 = document.getElementById("filterDate1");
+const filterDate2 = document.getElementById("filterDate2");
+const filterBtn = document.getElementById("filterBtn");
+const clearFilterBtn = document.getElementById("clearFilterBtn");
+
+// klik tombol Filter
+filterBtn.addEventListener("click", () => {
+  const startDate = filterDate1.value ? new Date(filterDate1.value) : null;
+  const endDate = filterDate2.value ? new Date(filterDate2.value) : null;
+
+  const tasks = taskContainer.querySelectorAll("div");
+
+  tasks.forEach(task => {
+    const detail = task.querySelector("p");
+    if (!detail) return; // skip kalau bukan task valid
+
+    // ambil deadline dari text
+    const match = detail.textContent.match(/Due:\s*([\d-]+)/);
+    if (!match) return;
+
+    const taskDate = new Date(match[1]);
+
+    // cek apakah masuk range
+    let show = true;
+    if (startDate && taskDate < startDate) show = false;
+    if (endDate && taskDate > endDate) show = false;
+
+    if (show) {
+      task.classList.remove("hidden");   // tampil
+    } else {
+      task.classList.add("hidden");      // sembunyi
+    }
+  });
+});
+
+// klik tombol Clear Filter
+clearFilterBtn.addEventListener("click", () => {
+  filterDate1.value = "";
+  filterDate2.value = "";
+
+  const tasks = taskContainer.querySelectorAll("div");
+  tasks.forEach(task => {
+    if (task.querySelector("p")) {
+      task.classList.remove("hidden"); // munculkan lagi semua
+    }
+  });
+});
+
 
   // confirm blank input
 addTaskBtn.addEventListener('click', function(event) {
