@@ -304,6 +304,9 @@ checkbox.addEventListener('change', () => {
   const editBtn = document.createElement('button');
   editBtn.className = 'bg-green-500 text-white px-3 py-1 rounded';
   editBtn.textContent = 'Edit';
+  editBtn.addEventListener('click', () => {
+  openEditModal(item1, title, detail);
+});
 
   const deleteBtn = document.createElement('button');
   deleteBtn.className = 'bg-red-500 text-white px-3 py-1 rounded';
@@ -340,4 +343,60 @@ deleteall.addEventListener('click', () => {
   } else {
     return;
   }
+});
+// === Modal Edit ===
+const editModal = document.getElementById("editModal");
+const editTaskText = document.getElementById("editTaskText");
+const editTaskDeadline = document.getElementById("editTaskDeadline");
+const editTaskPriority = document.getElementById("editTaskPriority");
+const cancelEditBtn = document.getElementById("cancelEditBtn");
+const saveEditBtn = document.getElementById("saveEditBtn");
+
+let currentEditItem = null; // task yang sedang diedit
+
+function openEditModal(item1, title, detail) {
+  currentEditItem = { item1, title, detail };
+
+  // isi field modal dengan data lama
+  editTaskText.value = title.textContent;
+  const match = detail.textContent.match(/Due:\s*([\d-]+)\s*\|\s*Priority:\s*(\w+)/);
+  if (match) {
+    editTaskDeadline.value = match[1];
+    editTaskPriority.value = match[2].toLowerCase();
+  }
+
+  editModal.classList.remove("hidden");
+  editModal.classList.add("flex");
+}
+
+function closeEditModal() {
+  editModal.classList.remove("flex");
+  editModal.classList.add("hidden");
+  currentEditItem = null;
+}
+
+// Cancel → tutup modal
+cancelEditBtn.addEventListener("click", closeEditModal);
+
+// Save perubahan
+saveEditBtn.addEventListener("click", () => {
+  if (!currentEditItem) return;
+  const { item1, title, detail } = currentEditItem;
+
+  // update isi task
+  title.textContent = editTaskText.value;
+  detail.textContent = `Due: ${editTaskDeadline.value} | Priority: ${editTaskPriority.value}`;
+  item1.dataset.priority = editTaskPriority.value;
+
+  // cek late
+  const deadlineDate = new Date(editTaskDeadline.value);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const item3 = title.parentElement;
+  if (deadlineDate < today) {
+    item3.classList.add("text-red-500");
+  } else {
+    item3.classList.remove("text-red-500");
+  }
+
+  closeEditModal();
 });
