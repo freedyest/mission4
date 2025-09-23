@@ -24,9 +24,9 @@ filterLinks.forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
 
-    // hapus highlight sebelumnya
+    // remove highlight default
     filterLinks.forEach(l => l.classList.remove('bg-slate-200'));
-    // kasih highlight aktif
+    // highlight active
     link.classList.add('bg-slate-200');
 
     const filter = link.textContent.trim();
@@ -34,7 +34,7 @@ filterLinks.forEach(link => {
 
     tasks.forEach(task => {
       const checkbox = task.querySelector('input[type="checkbox"]');
-      if (!checkbox) return; // skip kalau bukan task valid
+      if (!checkbox) return; // skip if not valid task
 
       if (filter === "All") {
         task.style.display = "flex";
@@ -48,7 +48,7 @@ filterLinks.forEach(link => {
 
         const taskDate = new Date(match[1]);
         const today = new Date();
-        today.setHours(0,0,0,0); // biar cuma tanggal, jam direset
+        today.setHours(0,0,0,0); // date only
 
         if (taskDate < today && !checkbox.checked) {
           task.style.display = "flex";
@@ -67,7 +67,7 @@ filterLinks.forEach(link => {
 sortTask.addEventListener('change', () => {
   const value = sortTask.value;
 
-  // ambil semua task valid
+  // take only task items (skip done items)
   const taskItems = Array.from(taskContainer.children).filter(el => el.querySelector('h2'));
 
   let sortedTasks = [];
@@ -97,20 +97,20 @@ sortTask.addEventListener('change', () => {
     });
   } 
   else {
-    return; // default, biarin aja
+    return; // default, no sorting
   }
 
-  // append ulang biar urut (checkbox, tombol, dll tetap utuh)
+  // reply append 
   sortedTasks.forEach(task => taskContainer.appendChild(task));
 });
 
-// === Filter Tanggal ===
+// === Filter date ===
 const filterDate1 = document.getElementById("filterDate1");
 const filterDate2 = document.getElementById("filterDate2");
 const filterBtn = document.getElementById("filterBtn");
 const clearFilterBtn = document.getElementById("clearFilterBtn");
 
-// klik tombol Filter
+//  Filter
 filterBtn.addEventListener("click", () => {
   const startDate = filterDate1.value ? new Date(filterDate1.value) : null;
   const endDate = filterDate2.value ? new Date(filterDate2.value) : null;
@@ -121,13 +121,13 @@ filterBtn.addEventListener("click", () => {
     const detail = task.querySelector("p");
     if (!detail) return; // skip kalau bukan task valid
 
-    // ambil deadline dari text
+    // take deadline from text
     const match = detail.textContent.match(/Due:\s*([\d-]+)/);
     if (!match) return;
 
     const taskDate = new Date(match[1]);
 
-    // cek apakah masuk range
+    // check range
     let show = true;
     if (startDate && taskDate < startDate) show = false;
     if (endDate && taskDate > endDate) show = false;
@@ -140,7 +140,7 @@ filterBtn.addEventListener("click", () => {
   });
 });
 
-// klik tombol Clear Filter
+// Clear Filter
 clearFilterBtn.addEventListener("click", () => {
   filterDate1.value = "";
   filterDate2.value = "";
@@ -148,7 +148,7 @@ clearFilterBtn.addEventListener("click", () => {
   const tasks = taskContainer.querySelectorAll("div");
   tasks.forEach(task => {
     if (task.querySelector("p")) {
-      task.classList.remove("hidden"); // munculkan lagi semua
+      task.classList.remove("hidden"); // all show
     }
   });
 });
@@ -206,13 +206,13 @@ function addTask(taskitem) {
  // wrapper info
 const item3 = document.createElement('div');
 
-// ubah deadline string → Date object
+//  deadline string → Date object
 const deadlineDate = new Date(taskitem.deadline);
 const today = new Date();
-today.setHours(0, 0, 0, 0); // reset jam ke 00:00 biar cuma tanggalnya yg dicek
+today.setHours(0, 0, 0, 0); // reset time  00:00 check only date
 
 if (deadlineDate < today) {
-  item3.className = 'text-red-500'; // lewat deadline → merah
+  item3.className = 'text-red-500'; // late=red
 } else {
   item3.className = '';
 }
@@ -290,7 +290,7 @@ checkbox.addEventListener('change', () => {
    
   }
 });
-  // gabung info
+  // append info
   item3.appendChild(title);
   item3.appendChild(detail);
 
@@ -309,7 +309,7 @@ checkbox.addEventListener('change', () => {
   deleteBtn.className = 'bg-red-500 text-white px-3 py-1 rounded';
   deleteBtn.textContent = 'Delete';
 
-  // hapus task ketika klik Delete
+  // Delete click
   deleteBtn.addEventListener('click', () => {
     item1.remove();
   });
@@ -317,14 +317,14 @@ checkbox.addEventListener('change', () => {
   item4.appendChild(editBtn);
   item4.appendChild(deleteBtn);
 
-  // gabung kiri & kanan
+  // append all
   item1.appendChild(item2);
   item1.appendChild(item4);
 
-  // masukkan ke container
+  // go to container
   taskContainer.appendChild(item1);
 
-  // cek kosong task list
+  // check empty task container
 if (taskContainer.children.length !== 0) {
 
   const emptyMsg = document.getElementById('emptyTaskMsg');
