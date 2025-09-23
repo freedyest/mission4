@@ -268,8 +268,8 @@ checkbox.addEventListener('change', () => {
       doneContainer.appendChild(doneItem);
     }
   } else {
-    item1.style.textDecoration = 'none';
-    item1.style.color = 'black';
+    item3.style.textDecoration = 'none';
+    item3.style.color = '';
 
     // delete from done list
     const doneItems = doneContainer.querySelectorAll('h2');
@@ -287,9 +287,9 @@ checkbox.addEventListener('change', () => {
       msg.textContent = 'Belum ada tugas yang selesai.';
       doneContainer.appendChild(msg);
     }
-   
   }
 });
+
   // append info
   item3.appendChild(title);
   item3.appendChild(detail);
