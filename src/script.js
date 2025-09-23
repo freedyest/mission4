@@ -30,7 +30,6 @@ filterLinks.forEach(link => {
     link.classList.add('bg-slate-200');
 
     const filter = link.textContent.trim();
-
     const tasks = taskContainer.querySelectorAll('div');
 
     tasks.forEach(task => {
@@ -40,8 +39,22 @@ filterLinks.forEach(link => {
       if (filter === "All") {
         task.style.display = "flex";
       } 
-      else if (filter === "Task") {
-        task.style.display = checkbox.checked ? "none" : "flex";
+      else if (filter === "Late") {
+        const detail = task.querySelector("p");
+        if (!detail) return;
+
+        const match = detail.textContent.match(/Due:\s*([\d-]+)/);
+        if (!match) return;
+
+        const taskDate = new Date(match[1]);
+        const today = new Date();
+        today.setHours(0,0,0,0); // biar cuma tanggal, jam direset
+
+        if (taskDate < today && !checkbox.checked) {
+          task.style.display = "flex";
+        } else {
+          task.style.display = "none";
+        }
       } 
       else if (filter === "Done") {
         task.style.display = checkbox.checked ? "flex" : "none";
@@ -190,7 +203,19 @@ function addTask(taskitem) {
   const checkbox = document.createElement('input'); 
   checkbox.type = 'checkbox';
 
-  const item3 = document.createElement('div');
+ // wrapper info
+const item3 = document.createElement('div');
+
+// ubah deadline string → Date object
+const deadlineDate = new Date(taskitem.deadline);
+const today = new Date();
+today.setHours(0, 0, 0, 0); // reset jam ke 00:00 biar cuma tanggalnya yg dicek
+
+if (deadlineDate < today) {
+  item3.className = 'text-red-500'; // lewat deadline → merah
+} else {
+  item3.className = '';
+}
 
   const title = document.createElement('h2');
   title.className = 'text-lg font-semibold';
