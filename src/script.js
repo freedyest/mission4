@@ -115,27 +115,29 @@ filterBtn.addEventListener("click", () => {
   const startDate = filterDate1.value ? new Date(filterDate1.value) : null;
   const endDate = filterDate2.value ? new Date(filterDate2.value) : null;
 
+  // ambil semua task wrapper (item1)
   const tasks = taskContainer.querySelectorAll("div");
 
   tasks.forEach(task => {
+    // cek kalau ini task valid (punya detail <p>)
     const detail = task.querySelector("p");
-    if (!detail) return; // skip if not valid task
+    if (!detail) return;
 
-    // take deadline from text
+    // ambil deadline dari detail text
     const match = detail.textContent.match(/Due:\s*([\d-]+)/);
     if (!match) return;
 
     const taskDate = new Date(match[1]);
 
-    // check range
+    // cek apakah taskDate dalam rentang
     let show = true;
     if (startDate && taskDate < startDate) show = false;
     if (endDate && taskDate > endDate) show = false;
 
     if (show) {
-      task.classList.remove("hidden"); 
+      task.classList.remove("hidden");   // tampilkan seluruh item1
     } else {
-      task.classList.add("hidden");     
+      task.classList.add("hidden");      // sembunyikan seluruh item1
     }
   });
 });
@@ -148,10 +150,11 @@ clearFilterBtn.addEventListener("click", () => {
   const tasks = taskContainer.querySelectorAll("div");
   tasks.forEach(task => {
     if (task.querySelector("p")) {
-      task.classList.remove("hidden"); // all show
+      task.classList.remove("hidden"); // tampilkan semua item1 lagi
     }
   });
 });
+
 
 
   // confirm blank input
