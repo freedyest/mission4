@@ -104,7 +104,7 @@ sortTask.addEventListener('change', () => {
   sortedTasks.forEach(task => taskContainer.appendChild(task));
 });
 
-// === Filter date ===
+// Filter date 
 const filterDate1 = document.getElementById("filterDate1");
 const filterDate2 = document.getElementById("filterDate2");
 const filterBtn = document.getElementById("filterBtn");
@@ -119,7 +119,7 @@ filterBtn.addEventListener("click", () => {
 
   tasks.forEach(task => {
     const detail = task.querySelector("p");
-    if (!detail) return; // skip kalau bukan task valid
+    if (!detail) return; // skip if not valid task
 
     // take deadline from text
     const match = detail.textContent.match(/Due:\s*([\d-]+)/);
@@ -133,9 +133,9 @@ filterBtn.addEventListener("click", () => {
     if (endDate && taskDate > endDate) show = false;
 
     if (show) {
-      task.classList.remove("hidden");   // tampil
+      task.classList.remove("hidden"); 
     } else {
-      task.classList.add("hidden");      // sembunyi
+      task.classList.add("hidden");     
     }
   });
 });
@@ -344,7 +344,7 @@ deleteall.addEventListener('click', () => {
     return;
   }
 });
-// === Modal Edit ===
+// Modal Edit Task
 const editModal = document.getElementById("editModal");
 const editTaskText = document.getElementById("editTaskText");
 const editTaskDeadline = document.getElementById("editTaskDeadline");
@@ -352,12 +352,12 @@ const editTaskPriority = document.getElementById("editTaskPriority");
 const cancelEditBtn = document.getElementById("cancelEditBtn");
 const saveEditBtn = document.getElementById("saveEditBtn");
 
-let currentEditItem = null; // task yang sedang diedit
+let currentEditItem = null; // edit tast
 
 function openEditModal(item1, title, detail) {
   currentEditItem = { item1, title, detail };
 
-  // isi field modal dengan data lama
+  // field fill
   editTaskText.value = title.textContent;
   const match = detail.textContent.match(/Due:\s*([\d-]+)\s*\|\s*Priority:\s*(\w+)/);
   if (match) {
@@ -375,20 +375,20 @@ function closeEditModal() {
   currentEditItem = null;
 }
 
-// Cancel → tutup modal
+// Cancel → close modal
 cancelEditBtn.addEventListener("click", closeEditModal);
 
-// Save perubahan
+// Save edit
 saveEditBtn.addEventListener("click", () => {
   if (!currentEditItem) return;
   const { item1, title, detail } = currentEditItem;
 
-  // update isi task
+  // update edit
   title.textContent = editTaskText.value;
   detail.textContent = `Due: ${editTaskDeadline.value} | Priority: ${editTaskPriority.value}`;
   item1.dataset.priority = editTaskPriority.value;
 
-  // cek late
+  // check late
   const deadlineDate = new Date(editTaskDeadline.value);
   const today = new Date(); today.setHours(0,0,0,0);
   const item3 = title.parentElement;
