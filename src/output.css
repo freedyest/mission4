@@ -1093,6 +1093,10 @@ video {
     width: auto;
   }
 
+  .md\:w-1\/4 {
+    width: 25%;
+  }
+
   .md\:flex-col {
     flex-direction: column;
   }
