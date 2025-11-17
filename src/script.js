@@ -8,6 +8,30 @@ const deleteall = document.getElementById("deleteall");
 const donelist = document.getElementById("donelist");
 const tasklist = document.getElementById("tasklist");
 const doneContainer = document.getElementById("doneContainer");
+function saveTaskToLocalStorage(task) {
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.push(task);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function loadTasksFromLocalStorage() {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach((task) => addTask(task));
+}
+function updateTaskInLocalStorage(oldText, newTask) {
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  const index = tasks.findIndex((t) => t.tasktext === oldText);
+  if (index !== -1) {
+    tasks[index] = newTask;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+}
+
+function removeTaskFromLocalStorage(taskText) {
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks = tasks.filter((t) => t.tasktext !== taskText);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 // Set time
 const currentTime = document.getElementById("currentTime");
@@ -195,7 +219,7 @@ addTaskBtn.addEventListener("click", function (event) {
   };
 
   addTask(taskitem);
-
+  saveTaskToLocalStorage(taskitem);
   inputtodo.value = "";
   inputdeadline.value = "";
   priority.value = "priority";
@@ -240,6 +264,38 @@ function addTask(taskitem) {
     "Due: " + taskitem.deadline + " | Priority: " + taskitem.priority;
 
   //checked task
+  checkbox.checked = taskitem.checked;
+
+  if (taskitem.checked) {
+    item3.style.textDecoration = "line-through";
+    item3.style.color = "gray";
+    const emptyMsg = document.getElementById("emptyDoneMsg");
+    if (emptyMsg) emptyMsg.remove();
+    // juga tampilkan di doneContainer saat halaman dibuka
+    const doneItem = document.createElement("div");
+    doneItem.className =
+      "md:mx-10 done-item flex justify-between items-center py-2";
+
+    const doneInfo = document.createElement("div");
+    doneInfo.className = "flex items-center space-x-4 px-4 py-2";
+
+    const doneText = document.createElement("div");
+
+    const doneTitle = document.createElement("h2");
+    doneTitle.className = "text-lg font-semibold";
+    doneTitle.textContent = title.textContent;
+
+    const doneDetail = document.createElement("p");
+    doneDetail.className = "text-gray-500";
+    doneDetail.textContent = detail.textContent;
+
+    doneText.appendChild(doneTitle);
+    doneText.appendChild(doneDetail);
+    doneInfo.appendChild(doneText);
+    doneItem.appendChild(doneInfo);
+
+    doneContainer.appendChild(doneItem);
+  }
 
   checkbox.addEventListener("change", () => {
     if (checkbox.checked) {
@@ -297,6 +353,24 @@ function addTask(taskitem) {
         doneContainer.appendChild(msg);
       }
     }
+    // ambil dari detail teks: "Due: yyyy-mm-dd | Priority: High"
+    const match = detail.textContent.match(
+      /Due:\s*([\d-]+)\s*\|\s*Priority:\s*(\w+)/
+    );
+    let deadline = taskitem.deadline;
+    let priority = taskitem.priority;
+
+    if (match) {
+      deadline = match[1];
+      priority = match[2];
+    }
+
+    updateTaskInLocalStorage(title.textContent, {
+      tasktext: title.textContent,
+      deadline: taskitem.deadline,
+      priority: taskitem.priority,
+      checked: checkbox.checked,
+    });
   });
 
   // append info
@@ -323,6 +397,7 @@ function addTask(taskitem) {
 
   // Delete click
   deleteBtn.addEventListener("click", () => {
+    removeTaskFromLocalStorage(title.textContent);
     item1.remove();
   });
 
@@ -345,6 +420,7 @@ function addTask(taskitem) {
 deleteall.addEventListener("click", () => {
   if (confirm("Yakin ingin menghapus semua task?")) {
     taskContainer.innerHTML = "";
+    localStorage.removeItem("tasks");
   } else {
     return;
   }
@@ -383,24 +459,33 @@ function closeEditModal() {
 }
 
 cancelEditBtn.addEventListener("click", closeEditModal);
-
 saveEditBtn.addEventListener("click", () => {
   if (!currentEditItem) return;
   const { item1, title, detail } = currentEditItem;
 
+  const oldText = title.textContent; // SIMPAN SEBELUM DI-EDIT
+
+  // apply UI
   title.textContent = editTaskText.value;
   detail.textContent = `Due: ${editTaskDeadline.value} | Priority: ${editTaskPriority.value}`;
   item1.dataset.priority = editTaskPriority.value;
 
+  // warna deadline
   const deadlineDate = new Date(editTaskDeadline.value);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const item3 = title.parentElement;
-  if (deadlineDate < today) {
-    item3.classList.add("text-red-500");
-  } else {
-    item3.classList.remove("text-red-500");
-  }
+  item3.classList.toggle("text-red-500", deadlineDate < today);
+
+  // UPDATE LOCAL STORAGE
+  updateTaskInLocalStorage(oldText, {
+    tasktext: editTaskText.value,
+    deadline: editTaskDeadline.value,
+    priority: editTaskPriority.value,
+    checked: item1.querySelector("input").checked,
+  });
 
   closeEditModal();
 });
+
+window.addEventListener("DOMContentLoaded", loadTasksFromLocalStorage);
